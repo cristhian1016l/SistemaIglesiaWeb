@@ -27,7 +27,7 @@
                 <label style=" font-size: 12px;" for="exampleInputEmail1"><strong>TEMA: </strong> {{ $informes->TemaSem }}</label>                
             </div>
             <div class="form-group">
-                <label style=" font-size: 12px;" for="exampleInputEmail1"><strong>OFRENDA: </strong> $.{{ $informes->OfreReu }}</label>
+                <label style=" font-size: 12px;" for="exampleInputEmail1"><strong>OFRENDA: </strong> S/.{{ $informes->OfreReu }}</label>
             </div>
             <h4 style="color: red; font-size: 16px;">ASISTENCIA</h4>
             <div class="form-group">
@@ -47,7 +47,7 @@
             <tbody>
                 @foreach ($asistencia as $asis)
                     <tr>
-                        <td style="font-size: 11px;">{{ $asis->NomCon }} {{ $asis->ApeCon }}</td>
+                        <td style="font-size: 11px;"> {{ $asis->ApeCon }} {{ $asis->NomCon }}</td>
                         @if ($asis->AsiReu === 'NO')
                         <td style="color: red; font-size: 11px;">{{ $asis->AsiReu }}</td>
                         @elseif ($asis->AsiReu === 'SI')

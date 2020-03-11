@@ -66,13 +66,22 @@ class InformeController extends Controller
     public function listarMiembros(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-
         $listaMiembros = Cdp_miembro::join('TabCon','TabMimCasPaz.CodCon','=','TabCon.CodCon')   
             ->select(DB::raw("TabCon.CodCon, TabCon.NomCon, TabCon.ApeCon, TabCon.TipCon, TabCon.NumCel, TabCon.FecNacCon, Date_Format(TabCon.FecReg, '%d-%m-%Y') as FecReg, Date_Format(TabCon.FecBau, '%d-%m-%Y') as FecBau, TabCon.TipCon"))
             ->where('TabMimCasPaz.CodCasPaz', '=', $request->idcdp)
-            ->where('TabCon.ParticipaCasaPaz', '=', 1)
-            ->orderBy('TabCon.ApeCon', 'ASC')->paginate();
+            ->orderBy('TabCon.ApeCon', 'ASC')->paginate(100);
         
+        return ['listaMiembros' => $listaMiembros];
+    }
+
+    public function listarMiembrosInforme(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $listaMiembros = Cdp_miembro::join('TabCon','TabMimCasPaz.CodCon','=','TabCon.CodCon')   
+            ->select(DB::raw("TabCon.CodCon, TabCon.NomCon, TabCon.ApeCon, TabCon.TipCon"))
+            ->where('TabMimCasPaz.CodCasPaz', '=', $request->idcdp)
+            ->where('TabCon.ParticipaCasaPaz', '=', 1)
+            ->orderBy('TabCon.ApeCon', 'ASC')->paginate(100);     
         
         return ['listaMiembros' => $listaMiembros];
     }
@@ -125,7 +134,34 @@ class InformeController extends Controller
         return ['informe' => $informes];
     }
 
-    public function informe_reporte($id)
+    public function informe_reporte(Request $request)
+    {                
+        date_default_timezone_set("America/Lima");        
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+        $informes = InfCdp::join('TabCasasDePaz as cdp','TabInfCasPaz.CodCasPaz','=','cdp.CodCasPaz')            
+            ->select('TabInfCasPaz.NumInf', 'TabInfCasPaz.CodCasPaz', 'TabInfCasPaz.FecInf', 'TabInfCasPaz.TotAsiReu', 'TabInfCasPaz.TotAusReu', 'TabInfCasPaz.OfreReu', 'TabInfCasPaz.TemaSem')
+            ->where('cdp.CodLid', '=', $request->CodCon)
+            ->where('TabInfCasPaz.NumInf', '=', $request->NumInf)
+            ->first();
+
+        $asistencia = DetInfCdp::join('TabInfCasPaz', 'TabDetInfCas.NumInf', '=', 'TabInfCasPaz.NumInf')
+            ->select('TabDetInfCas.CodCon', 'TabDetInfCas.NomCon', 'TabDetInfCas.ApeCon', 'TabDetInfCas.TipCon', 'TabDetInfCas.AsiReu')
+            ->where('TabDetInfCas.NumInf', '=', $request->NumInf)
+            ->orderby('TabDetInfCas.ApeCon', 'asc')
+            ->paginate(100);
+        
+        $mentor = Congregante::join('TabRedes','TabCon.CodCon','=','TabRedes.LID_RED')            
+        ->select('TabCon.NomCon','TabCon.ApeCon')
+        ->where('TabRedes.ID_RED', '=', Auth::User()->TabCon->ID_Red)->first();
+
+        $lider = DB::table('TabCon')->select('ApeCon', 'NomCon')->where('CodCon', $request->CodCon)->first();
+        
+        $fecha = strftime("%A, %d de %B de %Y %H:%M");
+        $pdf = PDF::loadView('reportes.informe_pdf', compact('informes','asistencia', 'mentor', 'lider', 'fecha'));
+        return $pdf->stream();
+    }
+
+    public function informe_reporte_lider($id)
     {        
         date_default_timezone_set("America/Lima");        
         setlocale(LC_TIME, 'es_ES.UTF-8');
@@ -138,7 +174,7 @@ class InformeController extends Controller
         $asistencia = DetInfCdp::join('TabInfCasPaz', 'TabDetInfCas.NumInf', '=', 'TabInfCasPaz.NumInf')
             ->select('TabDetInfCas.CodCon', 'TabDetInfCas.NomCon', 'TabDetInfCas.ApeCon', 'TabDetInfCas.TipCon', 'TabDetInfCas.AsiReu')
             ->where('TabDetInfCas.NumInf', '=', $id)
-            ->paginate();
+            ->get();
         
         $mentor = Congregante::join('TabRedes','TabCon.CodCon','=','TabRedes.LID_RED')            
         ->select('TabCon.NomCon','TabCon.ApeCon')
@@ -178,18 +214,11 @@ class InformeController extends Controller
         if($request->date)
         {
         $informes = InfCdp::join('TabCasasDePaz as cdp','TabInfCasPaz.CodCasPaz','=','cdp.CodCasPaz')            
-            ->select(DB::raw("TabInfCasPaz.NumInf,  TabInfCasPaz.NumSem, TabInfCasPaz.CodCasPaz, Date_Format(TabInfCasPaz.FecInf, '%d-%m-%Y') as FecInf, TabInfCasPaz.TotAsiReu, TabInfCasPaz.TotAusReu, TabInfCasPaz.OfreReu, TabInfCasPaz.TemaSem"))
+            ->select(DB::raw("TabInfCasPaz.NumInf,  TabInfCasPaz.NumSem, TabInfCasPaz.CodCasPaz, Date_Format(TabInfCasPaz.FecInf, '%d-%m-%Y') as FecInf, TabInfCasPaz.TotAsiReu, TabInfCasPaz.TotAusReu, TabInfCasPaz.OfreReu, TabInfCasPaz.TemaSem, cdp.CodLid"))
             ->where('cdp.ID_Red', '=', $idred->ID_RED)
             ->where("TabInfCasPaz.FecInf", '=', $request->date)
-            ->orderBy('TabInfCasPaz.NumInf', 'desc')
+            ->orderBy('cdp.CodCasPaz', 'asc')
             ->paginate();    
-        }else{
-        $informes = InfCdp::join('TabCasasDePaz as cdp','TabInfCasPaz.CodCasPaz','=','cdp.CodCasPaz')            
-            ->select(DB::raw("TabInfCasPaz.NumInf,  TabInfCasPaz.NumSem, TabInfCasPaz.CodCasPaz, Date_Format(TabInfCasPaz.FecInf, '%d-%m-%Y') as FecInf, TabInfCasPaz.TotAsiReu, TabInfCasPaz.TotAusReu, TabInfCasPaz.OfreReu, TabInfCasPaz.TemaSem"))
-            ->where('cdp.ID_Red', '=', $idred->ID_RED)
-            ->where("TabInfCasPaz.NumSem", '=', date('W'))
-            ->orderBy('TabInfCasPaz.NumInf', 'desc')
-            ->paginate($request->num);
         }
         return ['informe' => $informes];
     }

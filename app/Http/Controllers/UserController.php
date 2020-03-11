@@ -34,7 +34,7 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {        
         if (!$request->ajax()) return redirect('/');
 
         try {
@@ -44,17 +44,15 @@ class UserController extends Controller
             $user->usuario = $request->usuario;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);   
+            $user->condicion = 1;
             $user->save();
 
-            $role_user = new Role_user();
-            $role_user->user_id = $user->id;
-            $role_user->role_id = 1;
-            
+            $user->roles()->attach(1);
+               
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
         }
-
     }
 
     public function update(Request $request)
@@ -94,13 +92,15 @@ class UserController extends Controller
 
     public function selectLider(Request $request)
     {
+
         //if (!$request->ajax()) return redirect('/');
         $filtro = $request->filtro;
-        $lideres = Congregante::where('CodCon', 'like', '%'.$filtro.'%')
+        $lideres = Congregante::join('TabCasasDePaz as cdp','TabCon.CodCon', '=', 'cdp.CodLid')
+                   ->where('CodCon', 'like', '%'.$filtro.'%')
                    ->orWhere('ApeCon', 'like', '%'.$filtro.'%')
                    ->orWhere('NomCon', 'like', '%'.$filtro.'%')
-                   ->select('CodCon', 'ApeCon', 'NomCon')
-                   ->orderBy('NomCon', 'asc')->get();
+                   ->select(DB::raw(" DISTINCT cdp.CodLid, CONCAT(TabCon.ApeCon,' ', TabCon.NomCon) as label"))
+                   ->orderBy('TabCon.NomCon', 'asc')->get();
 
         return ['lideres' => $lideres];
     }

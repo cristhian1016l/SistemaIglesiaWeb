@@ -24,6 +24,7 @@ Route::get('/admin', 'HomeController@index')->name('admin');
 Route::get('/informe', 'InformeController@index')->name('informe');
 Route::get('/informe/listarCdp', 'InformeController@listarcdp');
 Route::get('/informe/listarMiembros', 'InformeController@listarMiembros');
+Route::get('/informe/listarMiembrosInforme', 'InformeController@listarMiembrosInforme');
 Route::get('/informe/editarCdp', 'InformeController@editarCdp');
 Route::put('/informe/editarCdp', 'InformeController@updateCdp');
 Route::get('/informe/listarDetalleMiembros', 'InformeController@listarDetalleMiembros');
@@ -32,7 +33,8 @@ Route::get('/informe/listarLideres', 'InformeController@listarLideresInforme');
 Route::post('/informe/registrar', 'InformeController@store');
 Route::post('/informe/eliminar', 'InformeController@delete');
 Route::get('/informe/listarInformes', 'InformeController@listarInformes');
-Route::get('/informe/ReportesPdf/{NumInf}', 'InformeController@informe_reporte');
+Route::get('/informe/ReportesPdf', 'InformeController@informe_reporte');
+Route::get('/informe/ReportesPdf/{NumInf}', 'InformeController@informe_reporte_lider');
 Auth::routes();
 
 //Rutas para líderes de red

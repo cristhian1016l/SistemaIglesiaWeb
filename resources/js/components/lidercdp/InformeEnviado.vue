@@ -5,15 +5,8 @@
                 <div class="white-box">
                     <h3 class="box-title">Informes Enviados</h3>
                     <p class="text-success">Buscar por: <code>Fecha</code></p>
-                    <div class="row">
-                        <div class="col-md-3 col-xs-12">
-                            <div class="form-group">
-                                <div class="input-group" > <span class="input-group-addon">F</span>                                        
-                                    <date-pick v-model="date"  :format="'YYYY-MM-DD'" placeholder="Seleccione fecha"></date-pick>
-                                </div>                                     
-                                                                        
-                            </div>                         
-                        </div>
+                    <date-pick v-model="date"  :format="'YYYY-MM-DD'" :inputAttributes="{readonly: true}" placeholder="Seleccione fecha"></date-pick>
+                    <div class="row">                        
                         <!--/span-->
                         <div class="col-md-3">
                             <button @click="listarInformes(date)" type="button" class="fcbtn btn btn-info btn-outline btn-1b">Buscar Informe {{ date }}</button>
@@ -29,6 +22,7 @@
                             <button v-if="informesNumber" @click="listarInformesU(informesNumber)" type="button" class="fcbtn btn btn-success btn-outline btn-1b">Mostrar los últimos {{informesNumber}} registros</button>
                             <button v-else @click="listarInformesU(1)" type="button" class="fcbtn btn btn-success btn-outline btn-1b">Mostrar el último registro enviado</button>
                         </div>
+                        
                     </div>
                     </div>
                     <div class="scrollable">
@@ -82,10 +76,11 @@
 
     export default {
         components: {DatePick},
+        
         data(){
             return{
                 arrayInforme : [],
-                date: null,
+                date: ' ',
                 msj: 0,
                 informesNumber: null,
             }
@@ -152,9 +147,10 @@
                     }
                 })
             }            
-        }, 
+        },         
         mounted() {        
             console.log('Component mounted.')
         }
-    }        
+    }     
+
 </script>

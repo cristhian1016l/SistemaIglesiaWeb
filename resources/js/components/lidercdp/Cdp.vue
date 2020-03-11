@@ -14,7 +14,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <a @click="listarMiembros(cdp.CodCasPaz)" class="btn btn-custom m-t-10 collapseble" >Elegir Casa de Paz </a>
-                    <a @click="modificarCdp(cdp.CodCasPaz); recuperarData(cdp)" class="btn btn-custom m-t-10 collapseble" >Modificar Casa de Paz </a>
+                    <!--<a @click="modificarCdp(cdp.CodCasPaz); recuperarData(cdp)" class="btn btn-custom m-t-10 collapseble" >Modificar Casa de Paz </a>-->
                     <h4 class="box-title">Dirección</h4>
                     <p v-text="cdp.DirCasPaz"></p> 
                     <h4 class="box-title">Fecha de Inicio</h4>

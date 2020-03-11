@@ -90,18 +90,20 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre (*)</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="NomCon" class="form-control" placeholder="Nombre de la persona">                                        
+                                        <input type="text" v-text="CodCon" v-model="LiderSelec.CodLid" class="form-control" placeholder="Nombre de la persona" readonly=true>                                        
                                     </div>
-                                </div>         
-                                <div class="form-group row">
+                                </div>
+                                <div class="form-group row" >
                                     <label class="col-md-3 form-control-label" for="text-input">Líder CDP (*)</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-9" id="select">
                                         <v-select
-                                            :on-search="selectLider"
-                                            label="ApeCon"                                    
+                                            class="vue-select1"                                            
                                             :options="arrayLider"
                                             placeholder="Buscar líder..."
-                                            :onChange="getDatosLider"
+                                            :model.sync="LiderSelec"
+                                            name="select1"
+                                            :searchable="true"
+                                            v-model="LiderSelec"                                    
                                         >
                                         </v-select>
                                     </div>
@@ -192,6 +194,7 @@
                 email : '',
                 password : '',
                 arrayLider : [],
+                LiderSelec : ''
             }
         },
         components: {
@@ -239,14 +242,12 @@
                     console.log(error);
                 });
             },
-            selectLider (search,loading){
+            selectLider (){
                 let me=this;
-                loading(true)
-                var url= '/user/selectLider?filtro='+search;
+                var url= '/user/selectLider';
                 axios.get(url).then(function (response) {
                     let respuesta = response.data;
                     me.arrayLider = respuesta.lideres;
-                    loading(false)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -265,14 +266,10 @@
                 me.listarUsuario(page,buscar,criterio);
             },
             registrarPersona(){
-                if (this.validarPersona()){
-                    return;
-                }
-                
                 let me = this;
 
                 axios.post('/user/registrar',{
-                    'CodCon': this.CodCon,
+                    'CodCon': this.LiderSelec.CodLid,
                     'email' : this.email,
                     'usuario': this.usuario,
                     'password': this.password,
@@ -441,6 +438,7 @@
         },
         mounted() {
             this.listarUsuario(1,this.buscar,this.criterio);
+            this.selectLider();
         }
     }
 </script>

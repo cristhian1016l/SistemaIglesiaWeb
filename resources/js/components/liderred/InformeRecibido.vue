@@ -5,15 +5,8 @@
                 <div class="white-box">
                     <h3 class="box-title">Informes Enviados</h3>
                     <p class="text-success">Buscar por: <code>Fecha</code></p>
+                    <date-pick v-model="date"  :format="'YYYY-MM-DD'" :inputAttributes="{readonly: true}"></date-pick>
                     <div class="row">
-                        <div class="col-md-3 col-xs-12">
-                            <div class="form-group">
-                                <div class="input-group" > <span class="input-group-addon">F</span>                                        
-                                    <date-pick v-model="date"  :format="'YYYY-MM-DD'" placeholder="Seleccione fecha"></date-pick>
-                                </div>                                     
-                                                                        
-                            </div>                         
-                        </div>
                         <!--/span-->
                         <div class="col-md-3">
                             <button @click="listarInformes(date)" type="button" class="fcbtn btn btn-info btn-outline btn-1b">Buscar Informe {{ date }}</button>
@@ -21,14 +14,6 @@
                         <!--/span-->
                     </div>
                     <hr>
-                    <p class="text-info">Buscar <code>Informes de la última casa de paz</code></p>
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            <div class="button-box">                                                    
-                            <button @click="listarInformesU()" type="button" class="fcbtn btn btn-success btn-outline btn-1b">Mostrar informes enviados esta semana</button>
-                        </div>
-                    </div>
-                    </div>
                     <div class="scrollable">
                         <p v-show="msj==1" class="text-warning"> Mostrando informes enviados en: <code>{{ date }} </code></p>
                         <p v-show="msj==2" class="text-warning"> Mostrando los últimos <code>{{ informesNumber }}</code>informes enviados</p>
@@ -56,7 +41,7 @@
                                         <td v-text="informe.OfreReu"></td>
                                         <td v-text="informe.TemaSem"></td>
                                         <td>                                            
-                                            <a href="#" @click="reportePdf(informe.NumInf)" target="_blank" ><div class="col-sm-6 col-md-4 col-lg-3"><i class="fa fa-file-pdf-o"></i></div></a>
+                                            <a href="#" @click="reportePdf(informe.NumInf, informe.CodLid)" target="_blank" ><div class="col-sm-6 col-md-4 col-lg-3"><i class="fa fa-file-pdf-o"></i></div></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -79,7 +64,7 @@
         data(){
             return{
                 arrayInforme : [],
-                date: null,
+                date: " ",
                 msj: 0,
                 informesNumber: null,
             }
@@ -98,24 +83,12 @@
                     console.log(error);
                 });
             },
-            listarInformesU(){
-                let me=this;
-                var url= '/informe/listarInformesRed';
-                me.msj=2;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayInforme= respuesta.informe.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-            reportePdf($NumInf){
-                window.open('/informe/ReportesPdf/'+$NumInf, '_blank');
+            reportePdf($NumInf, $codcon){
+                window.open('/informe/ReportesPdf?NumInf='+$NumInf+'&CodCon='+$codcon, '_blank');
             }
         }, 
-        mounted() {        
+        mounted() {
             console.log('Component mounted.')
         }
-    }        
+    }
 </script>
