@@ -38,7 +38,7 @@ class CdpController extends Controller
         $listaMiembros = Cdp_miembro::join('TabCon','TabMimCasPaz.CodCon','=','TabCon.CodCon')   
             ->select(DB::raw("TabCon.CodCon, TabCon.NomCon, TabCon.ApeCon, TabCon.TipCon, TabCon.NumCel, TabCon.FecNacCon, Date_Format(TabCon.FecReg, '%d-%m-%Y') as FecReg, Date_Format(TabCon.FecBau, '%d-%m-%Y') as FecBau, TabCon.TipCon"))
             ->where('TabMimCasPaz.CodCasPaz', '=', $request->idcdp)
-            ->orderBy('TabCon.ApeCon', 'ASC')->paginate();
+            ->orderBy('TabCon.ApeCon', 'ASC')->paginate(100);
         
         
         return ['listaMiembros' => $listaMiembros];

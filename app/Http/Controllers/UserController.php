@@ -47,7 +47,7 @@ class UserController extends Controller
             $user->condicion = 1;
             $user->save();
 
-            $user->roles()->attach(1);
+            $user->roles()->attach(2);
                
             DB::commit();
         } catch (\Throwable $th) {

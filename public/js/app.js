@@ -3535,17 +3535,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3666,6 +3655,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         me.cerrarModal();
         me.listarUsuario(1, '', 'CodCon');
+        me.LiderSelec.CodLid = "";
+        me.LiderSelec.label = "";
       })["catch"](function (error) {
         console.log(error);
       });
@@ -45849,7 +45840,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("main", { staticClass: "main" }, [
     _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card " }, [
         _c("div", { staticClass: "card-header" }, [
           _c(
             "button",
@@ -45869,192 +45860,100 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("div", { staticClass: "input-group" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.criterio,
-                        expression: "criterio"
-                      }
-                    ],
-                    staticClass: "form-control col-md-3",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.criterio = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "CodCon" } }, [
-                      _vm._v("Código")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "NomCon" } }, [
-                      _vm._v("Nombre")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "ApeCon" } }, [
-                      _vm._v("Apellido")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.buscar,
-                      expression: "buscar"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Texto a buscar" },
-                  domProps: { value: _vm.buscar },
-                  on: {
-                    keyup: function($event) {
-                      if (
-                        !$event.type.indexOf("key") &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
-                      }
-                      return _vm.listarUsuario(1, _vm.buscar, _vm.criterio)
-                    },
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.buscar = $event.target.value
-                    }
-                  }
-                }),
+        _c("div", { staticClass: "card-body " }, [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c(
+              "table",
+              { staticClass: "table table-bordered table-striped table-sm" },
+              [
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "submit" },
-                    on: {
-                      click: function($event) {
-                        return _vm.listarUsuario(1, _vm.buscar, _vm.criterio)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-search" }), _vm._v(" Buscar")]
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "table",
-            { staticClass: "table table-bordered table-striped table-sm" },
-            [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.arrayPersona, function(persona) {
-                  return _c("tr", { key: persona.CodCon }, [
-                    _c(
-                      "td",
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.abrirModal(
-                                  "persona",
-                                  "actualizar",
-                                  persona
-                                )
+                  "tbody",
+                  _vm._l(_vm.arrayPersona, function(persona) {
+                    return _c("tr", { key: persona.CodCon }, [
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.abrirModal(
+                                    "persona",
+                                    "actualizar",
+                                    persona
+                                  )
+                                }
                               }
-                            }
-                          },
-                          [_c("i", { staticClass: "icon-pencil" })]
-                        ),
-                        _vm._v(" \n                                "),
-                        persona.condicion
-                          ? [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.desactivarUsuario(persona.id)
+                            },
+                            [_c("i", { staticClass: "icon-pencil" })]
+                          ),
+                          _vm._v(" \n                                "),
+                          persona.condicion
+                            ? [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.desactivarUsuario(persona.id)
+                                      }
                                     }
-                                  }
-                                },
-                                [_c("i", { staticClass: "icon-trash" })]
-                              )
-                            ]
-                          : [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-info btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.activarUsuario(persona.id)
+                                  },
+                                  [_c("i", { staticClass: "icon-trash" })]
+                                )
+                              ]
+                            : [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-info btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.activarUsuario(persona.id)
+                                      }
                                     }
-                                  }
-                                },
-                                [_c("i", { staticClass: "icon-check" })]
-                              )
-                            ]
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(persona.NomCon) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(persona.ApeCon) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(persona.NumCel) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(persona.email) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(persona.usuario) }
-                    })
-                  ])
-                }),
-                0
-              )
-            ]
-          ),
+                                  },
+                                  [_c("i", { staticClass: "icon-check" })]
+                                )
+                              ]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(persona.NomCon) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(persona.ApeCon) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(persona.NumCel) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(persona.email) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(persona.usuario) }
+                      })
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
+          ]),
           _vm._v(" "),
           _c("nav", [
             _c(
@@ -46217,8 +46116,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.LiderSelec.CodLid,
-                              expression: "LiderSelec.CodLid"
+                              value: _vm.LiderSelec.label,
+                              expression: "LiderSelec.label"
                             }
                           ],
                           staticClass: "form-control",
@@ -46229,7 +46128,7 @@ var render = function() {
                           },
                           domProps: {
                             textContent: _vm._s(_vm.CodCon),
-                            value: _vm.LiderSelec.CodLid
+                            value: _vm.LiderSelec.label
                           },
                           on: {
                             input: function($event) {
@@ -46238,7 +46137,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.LiderSelec,
-                                "CodLid",
+                                "label",
                                 $event.target.value
                               )
                             }

@@ -2,26 +2,14 @@
             <main class="main">
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
-                <div class="card">
+                <div class="card ">
                     <div class="card-header">
                         <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-info">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="CodCon">Código</option>
-                                      <option value="NomCon">Nombre</option>
-                                      <option value="ApeCon">Apellido</option>                                      
-                                    </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarUsuario(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarUsuario(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-body ">
+                        <div class="table-responsive">
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
@@ -58,6 +46,7 @@
                                 </tr>                                
                             </tbody>
                         </table>
+                        </div>
                         <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page > 1">
@@ -90,7 +79,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre (*)</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-text="CodCon" v-model="LiderSelec.CodLid" class="form-control" placeholder="Nombre de la persona" readonly=true>                                        
+                                        <input type="text" v-text="CodCon" v-model="LiderSelec.label" class="form-control" placeholder="Nombre de la persona" readonly=true>                                        
                                     </div>
                                 </div>
                                 <div class="form-group row" >
@@ -277,6 +266,8 @@
                 }).then(function (response) {
                     me.cerrarModal();
                     me.listarUsuario(1,'','CodCon');
+                    me.LiderSelec.CodLid = ""
+                    me.LiderSelec.label = ""
                 }).catch(function (error) {
                     console.log(error);
                 });

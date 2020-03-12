@@ -24,13 +24,11 @@ create table users (
   role_id int
   );
   
-  insert into roles(name, description) values('lidercdp', 'Usuario para el líder de casa de paz');
   insert into roles(name, description) values('liderred', 'Usuario para ver los reportes del lider de casa de paz');
+  insert into roles(name, description) values('lidercdp', 'Usuario para el líder de casa de paz');
   insert into roles(name, description) values('mentor', 'Usuario para ver todo relacionado a sus discìpulos');
-  insert into role_user(user_id, role_id) values(1, 1);
-  insert into role_user(user_id, role_id) values(2, 2);
-  insert into role_user(user_id, role_id) values(3, 1);
-  insert into role_user(user_id, role_id) values(4, 1);
-  
-  SELECT * FROM role_user
+  insert into role_user(user_id, role_id) values(1, 2);
+  insert into role_user(user_id, role_id) values(1, 2);
+  insert into role_user(user_id, role_id) values(1, 2);
+  insert into role_user(user_id, role_id) values(1, 2);
   
