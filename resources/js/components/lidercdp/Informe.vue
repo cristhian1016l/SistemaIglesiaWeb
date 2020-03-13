@@ -28,7 +28,7 @@
                         &lt;/div&gt; </code> </div>
                         </div>
                 </div>
-                <div class="panel-footer"> Panel Footer </div>
+                <div class="panel-footer"> Solo debe hacerlo una vez por semana  </div>
             </div>
         </div>
     </div>

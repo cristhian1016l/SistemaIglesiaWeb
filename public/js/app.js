@@ -3573,7 +3573,10 @@ __webpack_require__.r(__webpack_exports__);
       email: '',
       password: '',
       arrayLider: [],
-      LiderSelec: ''
+      LiderSelec: {
+        CodLid: '',
+        label: ''
+      }
     };
   },
   components: {
@@ -3649,6 +3652,7 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       axios.post('/user/registrar', {
         'CodCon': this.LiderSelec.CodLid,
+        'nombre': this.LiderSelec.label,
         'email': this.email,
         'usuario': this.usuario,
         'password': this.password
@@ -3668,19 +3672,15 @@ __webpack_require__.r(__webpack_exports__);
 
       var me = this;
       axios.put('/user/actualizar', {
-        'nombre': this.nombre,
-        'tipo_documento': this.tipo_documento,
-        'num_documento': this.num_documento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
+        'CodCon': this.LiderSelec.CodLid,
         'email': this.email,
         'usuario': this.usuario,
-        'password': this.password,
-        'idrol': this.idrol,
-        'id': this.persona_id
+        'password': this.password
       }).then(function (response) {
         me.cerrarModal();
         me.listarUsuario(1, '', 'nombre');
+        me.LiderSelec.CodLid = "";
+        me.LiderSelec.label = "";
       })["catch"](function (error) {
         console.log(error);
       });
@@ -3688,7 +3688,7 @@ __webpack_require__.r(__webpack_exports__);
     validarPersona: function validarPersona() {
       this.errorPersona = 0;
       this.errorMostrarMsjPersona = [];
-      if (!this.NomCon) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
+      if (!this.LiderSelec.label) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
       if (!this.email) this.errorMostrarMsjPersona.push("El email no puede estar vacío.");
       if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
       if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
@@ -3708,6 +3708,8 @@ __webpack_require__.r(__webpack_exports__);
       this.password = '';
       this.idrol = 0;
       this.errorPersona = 0;
+      this.LiderSelec.CodLid = '';
+      this.LiderSelec.label = '';
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -3736,9 +3738,8 @@ __webpack_require__.r(__webpack_exports__);
                   this.modal = 1;
                   this.tituloModal = 'Actualizar Usuario';
                   this.tipoAccion = 2;
-                  this.persona_id = data['id'];
-                  this.NomCon = data['NomCon'] + data['ApeCon'];
-                  this.telefono = data['NumCel'];
+                  this.LiderSelec.CodLid = data['id'];
+                  this.LiderSelec.label = data['NomCon'] + data['ApeCon'];
                   this.email = data['email'];
                   this.usuario = data['usuario'];
                   this.password = data['password'];
@@ -43786,7 +43787,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "panel-footer" }, [
-                      _vm._v(" Panel Footer ")
+                      _vm._v(" Solo debe hacerlo una vez por semana  ")
                     ])
                   ])
                 ])

@@ -61,8 +61,7 @@ class UserController extends Controller
 
         try {
             DB::beginTransaction();
-            $user = User::findOrFail($request->id);
-            $user->CodCon = $request->CodCon;
+            $user = User::findOrFail($request->CodCon);
             $user->usuario = $request->usuario;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);   
@@ -74,21 +73,21 @@ class UserController extends Controller
         }
     }
 
-    /*public function desactivar(Request $request)
+    public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
         $user = User::findOrFail($request->id);
         $user->condicion = '0';
         $user->save();
-    }*/
+    }
 
-    /*public function activar(Request $request)
+    public function activar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
         $user = User::findOrFail($request->id);
         $user->condicion = '1';
         $user->save();
-    }*/
+    }
 
     public function selectLider(Request $request)
     {

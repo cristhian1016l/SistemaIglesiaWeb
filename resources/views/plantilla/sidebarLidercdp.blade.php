@@ -19,12 +19,12 @@
                                     <span class="hide-menu">Ver Casas de Paz Asignadas</span>
                                 </a>
                             </li>
-                            <!--<li @click="menu=1">
+                            <li @click="menu=1">
                                 <a href="#">
                                     <i class="fa-fw">IN</i> 
                                     <span class="hide-menu">Realizar Informe</span>
                                 </a>
-                            </li>-->
+                            </li>
                             <li @click="menu=2">
                                 <a href="#">
                                     <i class="fa-fw">IE</i> 

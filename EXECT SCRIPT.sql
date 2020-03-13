@@ -9,8 +9,7 @@ create table users (
   created_at timestamp,
   updated_at timestamp,
   condicion tinyint(1),
-  foreign key (CodCon) references TabCon(CodCon))
-  ENGINE=innodb DEFAULT CHARSET=utf8;
+  foreign key (CodCon) references TabCon(CodCon));
   
   create table roles(
   id int unique auto_increment primary key,

@@ -58,19 +58,21 @@
                 </ul>         
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ Auth::User()->TabCon->NomCon }}</b><span class="caret"></span> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="/images/users/custom.png" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ Auth::User()->TabCon->NomCon }}</b><span class="caret"></span> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li>
                                 <div class="dw-user-box">
-                                    <div class="u-img"><img src="/images/users/varun.jpg" alt="user" /></div>
+                                    <div class="u-img"><img src="/images/users/custom.png" alt="user" /></div>
                                     <div class="u-text">
                                         <h4>{{ Auth::User()->TabCon->NomCon }} {{ Auth::User()->TabCon->ApeCon }}</h4>
-                                        <p class="text-muted">{{ Auth::User()->email }}</p><a href="#" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></div>
+                                        <p class="text-muted">{{ Auth::User()->email }}</p><!--<a href="#" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a>-->
+                                    </div>
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-settings"></i>Configuración de mi Cuenta</a></li>
+                            <li><a href="#" class="btn btn-rounded btn-danger btn-sm">Configuración de mi cuenta</a></li>
+                            <!--<li><a href="#"><i class="ti-settings"></i>Configuración de mi Cuenta</a></li>-->
                             <li role="separator" class="divider"></li>
                             <li>
                             <a href="{{ route('logout') }}"
