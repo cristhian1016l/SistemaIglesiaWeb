@@ -3195,6 +3195,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3258,6 +3262,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     vista1: function vista1() {
       this.lista = 1;
+    },
+    reportePdf: function reportePdf($codcdp, $nombres) {
+      window.open('/informe/ReportesOracion?codcdp=' + $codcdp + '&nomlid=' + $nombres, '_blank');
     }
   },
   mounted: function mounted() {
@@ -45066,7 +45073,25 @@ var render = function() {
                               domProps: {
                                 textContent: _vm._s(cdp.TotMimCasPaz)
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "#", target: "_blank" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.reportePdf(
+                                        cdp.CodCasPaz,
+                                        cdp.Nombres
+                                      )
+                                    }
+                                  }
+                                },
+                                [_vm._m(2, true)]
+                              )
+                            ])
                           ])
                         }),
                         0
@@ -45123,7 +45148,7 @@ var render = function() {
                       attrs: { id: "demo-foo-addrow", "data-page-size": "10" }
                     },
                     [
-                      _vm._m(2),
+                      _vm._m(3),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -45217,7 +45242,7 @@ var render = function() {
         _vm._l(_vm.arrayDetalleMiembro, function(miembroDet, id) {
           return _c("div", { key: id, staticClass: "col-md-4 col-xs-12" }, [
             _c("div", { staticClass: "white-box" }, [
-              _vm._m(3, true),
+              _vm._m(4, true),
               _vm._v(" "),
               _c("div", { staticClass: "user-btm-box" }, [
                 _c("div", { staticClass: "row text-center m-t-10" }, [
@@ -45291,7 +45316,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-8 col-xs-12" }, [
           _c("div", { staticClass: "white-box" }, [
-            _vm._m(4),
+            _vm._m(5),
             _vm._v(" "),
             _c(
               "div",
@@ -45466,7 +45491,7 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm._m(5, true)
+                          _vm._m(6, true)
                         ]
                       )
                     ]
@@ -45513,8 +45538,18 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Tipo de Casa de Paz")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total Miembros")])
+        _c("th", [_vm._v("Total Miembros")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-6 col-md-4 col-lg-3" }, [
+      _c("i", { staticClass: "fa fa-file-pdf-o" })
     ])
   },
   function() {

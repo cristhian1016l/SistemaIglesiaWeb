@@ -35,6 +35,7 @@ Route::post('/informe/eliminar', 'InformeController@delete');
 Route::get('/informe/listarInformes', 'InformeController@listarInformes');
 Route::get('/informe/ReportesPdf', 'InformeController@informe_reporte');
 Route::get('/informe/ReportesPdf/{NumInf}', 'InformeController@informe_reporte_lider');
+Route::get('/informe/ReportesOracion', 'InformeController@informe_oracion');
 Auth::routes();
 
 //Rutas para líderes de red

@@ -236,4 +236,34 @@ class InformeController extends Controller
             $inf->delete();         
         }
     }
+
+    public function informe_oracion(Request $request)
+    {        
+        date_default_timezone_set("America/Lima");        
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+
+        $diaInicio="Monday";
+        $fecha = date('Y-m-d');
+        $strFecha = strtotime($fecha);
+        $fechaInicio = date('Y-m-d',strtotime('last '.$diaInicio,$strFecha));
+        
+        date($fechaInicio);
+
+        $cdp = DB::table('TabDetAsi as da')
+               ->join('TabAsi as a', 'da.CodAsi', '=', 'a.CodAsi')
+               ->join('TabMimCasPaz as mim', 'da.CodCon', '=', 'mim.CodCon')
+               ->select(DB::raw('da.NomApeCon, da.Asistio, a.FecAsi, mim.CodCasPaz'))
+               ->where('mim.CodCasPaz', '=', $request->codcdp)
+               ->where('a.CodAct', '=', '002')
+               ->whereBetween('a.FecAsi', [$fechaInicio, date('Y-m-d')])
+               ->orderBy('da.NomApeCon')
+               ->orderBy('a.FecAsi')
+               ->get();       
+        $codcdp = $request->codcdp; 
+        $nombres = $request->nomlid;
+        $fecha = strftime("%A, %d de %B de %Y %H:%M");
+        $pdf = PDF::loadView('reportes.informe_oracionCDP', compact('cdp', 'codcdp', 'nombres'));
+        return $pdf->stream();
+    }
 }
+

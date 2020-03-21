@@ -26,7 +26,7 @@ class CdpController extends Controller
         $cdp = CasaDePaz::join('TabCon as m','TabCasasDePaz.CodLid','=','m.CodCon')   
             ->select(DB::raw("TabCasasDePaz.CodCasPaz, CONCAT(m.ApeCon,' ', m.NomCon) as Nombres, TabCasasDePaz.DirCasPaz, 
             Date_Format(TabCasasDePaz.FecIniCasPaz, '%d-%m-%Y') as FecIniCasPaz, TabCasasDePaz.DiaReuCasPaz, TabCasasDePaz.TipCasPaz, TabCasasDePaz.TotMimCasPaz"))
-            ->where('TabCasasDePaz.ID_Red', '=', $idred->ID_RED)->paginate();
+            ->where('TabCasasDePaz.ID_Red', '=', $idred->ID_RED)->paginate(60);
         
         return ['cdps' => $cdp];
     }

@@ -29,7 +29,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li> <a href="#" class="waves-effect"><i class="mdi mdi-home-variant fa-fw">GU</i> <span class="hide-menu">Gestión de Usuarios<span class="fa arrow"></span></span></a>
+                    <!--<li> <a href="#" class="waves-effect"><i class="mdi mdi-home-variant fa-fw">GU</i> <span class="hide-menu">Gestión de Usuarios<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
                             <li @click="menu=5">
                                 <a href="#">
@@ -37,7 +37,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>        
+                    </li>-->
                 </ul>
             </div>
         </div>

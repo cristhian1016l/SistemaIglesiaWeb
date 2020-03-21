@@ -24,6 +24,7 @@
                                         <th>Día de reunión</th>
                                         <th>Tipo de Casa de Paz</th>
                                         <th>Total Miembros</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>                                                                        
@@ -36,6 +37,9 @@
                                         <td v-text="cdp.DiaReuCasPaz"><span class="label label-success"></span></td>                                        
                                         <td v-text="cdp.TipCasPaz"></td>
                                         <td v-text="cdp.TotMimCasPaz"></td>
+                                        <td>                                            
+                                            <a href="#" @click="reportePdf(cdp.CodCasPaz, cdp.Nombres)" target="_blank" ><div class="col-sm-6 col-md-4 col-lg-3"><i class="fa fa-file-pdf-o"></i></div></a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -357,6 +361,9 @@
             },
             vista1() {
                 this.lista = 1;
+            },
+            reportePdf($codcdp, $nombres){
+                window.open('/informe/ReportesOracion?codcdp='+$codcdp+'&nomlid='+$nombres, '_blank');
             }
         }, 
         mounted() {
