@@ -10,52 +10,106 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1><center>Reporte de Oracion {{ $codcdp }}</center></h1>        
+        <h1><center>Reporte de Oracion</center></h1>        
         <h6>Encargado: {{ Auth::User()->TabCon->NomCon }} {{ Auth::User()->TabCon->ApeCon }}</h6>
-        <h6>Lider: {{ $nombres }}</h6>
-            <table class="table table-striped table-sm">
+ 
+        @foreach($lista as $key => $list)
+        <h4>Casa de Paz {{ $key }}</h4>        
+        <table class="table table-striped table-sm">
             <thead style="border:1px dashed; ">
-                <tr >                
-                <th style="font-size: 12px; font-family: font-family: arial">NOMBRES</th>
-                <th style="font-size: 12px; font-family: font-family: arial">ASISTENCIA</th>
-                <th style="font-size: 12px; font-family: font-family: arial">DÍA</th>
-                </tr>
+            <tr>
+                <th style="font-size: 11px; font-family: font-family: arial">NOMBRES</th>
+                <th style="font-size: 11px; font-family: font-family: arial">LUNES</th>
+                <th style="font-size: 11px; font-family: font-family: arial">MARTES</th>
+                <th style="font-size: 11px; font-family: font-family: arial">MIÉRCOLES</th>
+                <th style="font-size: 11px; font-family: font-family: arial">JUEVES</th>
+                <th style="font-size: 11px; font-family: font-family: arial">VIERNES</th>
+                <th style="font-size: 11px; font-family: font-family: arial">SABADO</th>
+                <th style="font-size: 11px; font-family: font-family: arial">DOMINGO</th>
+            </tr>
             </thead>
             <tbody>
-            @foreach ($cdp as $c)
+            @foreach($lista[$key] as $miembros)
             <tr>
-                <?php                 
-                    $dia = date( "w", strtotime($c->FecAsi));                    
-                ?>  
+            <td style="font-size: 10px; font-family: font-family: arial">{{ $miembros["Nombre"] }}</td>
 
-                <td style="font-size: 11px; font-family: font-family: arial">{{ $c->NomApeCon }}</td>
-
-                @if ( $c->Asistio  === 0)                  
-                <td style="font-size: 11px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>
+            @if($miembros["LU"] == "")
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>
+            @else
+                @if ($miembros["LU"] == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>                
                 @else 
-                <td style="font-size: 11px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
-                @endif
-                
-                @if($dia === "1")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Lunes"; ?></td>
-                @elseif($dia === "2")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Martes"; ?></td>
-                @elseif($dia === "3")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Miércoles"; ?></td>
-                @elseif($dia === "4")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Jueves"; ?></td>
-                @elseif($dia === "5")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Viernes"; ?></td>
-                @elseif($dia === "6")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Sabado"; ?></td>
-                @elseif($dia === "0")
-                <td style="font-size: 11px; font-family: font-family: arial"><?php echo "Domingo"; ?></td>
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
                 @endif                
+            @endif
+
+            @if($miembros["MA"] == "")
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>
+            @else
+                @if ( $miembros["MA"]  == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>                            
+                @else 
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
+                @endif                
+            @endif
+
+            @if($miembros["MI"] == "")
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>
+            @else
+                @if ( $miembros["MI"]  == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>                            
+                @else 
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
+                @endif                
+            @endif            
+
+            @if($miembros["JU"] == "")                
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>
+            @else
+                @if ( $miembros["JU"]  == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>                            
+                @else 
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
+                @endif                
+            @endif            
+        
+            @if($miembros["VI"] == "")
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>                
+            @else
+                @if ( $miembros["VI"]  == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>            
+                @else 
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
+                @endif                
+            @endif
+
+            @if($miembros["SA"] == "")
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>                
+            @else
+                @if ( $miembros["SA"]  == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>            
+                @else 
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
+                @endif                
+            @endif
+
+            @if($miembros["DO"] == "")
+                <td style="font-size: 10px; font-family: font-family: arial; color: red; font-weight: 900;">FALTÓ</td>
+            @else
+                @if ( $miembros["DO"]  == 0)
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;"></td>                
+                @else 
+                <td style="font-size: 10px; font-family: font-family: arial; color: blue; font-weight: 900;">ASISTIÓ</td>
+                @endif                
+            @endif            
+
             </tr>
-            @endforeach                
-            
+            @endforeach
             </tbody>
-            </table>
+        </table>        
+        <div style="page-break-after:always;"></div>
+        @endforeach
+            
     </div>
 </body>
 </html>

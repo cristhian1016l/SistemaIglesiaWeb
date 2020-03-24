@@ -5,6 +5,13 @@
             <div class="white-box">
                 <h3 class="box-title">LISTA DE TODAS LAS CASAS DE PAZ DE SU RED</h3></div>
         </div>
+    </div>   
+    <div class="white-box">
+        <div class="row">
+            <div class="col-md-3">                
+                <button @click="reportePdf()" target="_blank" type="button" class="fcbtn btn btn-info btn-outline btn-1b">Descargar Reporte de oración de las casas de paz</button>
+            </div>
+        </div>
     </div>    
 
     <div v-show="lista==0">    
@@ -24,7 +31,6 @@
                                         <th>Día de reunión</th>
                                         <th>Tipo de Casa de Paz</th>
                                         <th>Total Miembros</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>                                                                        
@@ -36,10 +42,7 @@
                                         <td v-text="cdp.FecIniCasPaz"></td>
                                         <td v-text="cdp.DiaReuCasPaz"><span class="label label-success"></span></td>                                        
                                         <td v-text="cdp.TipCasPaz"></td>
-                                        <td v-text="cdp.TotMimCasPaz"></td>
-                                        <td>                                            
-                                            <a href="#" @click="reportePdf(cdp.CodCasPaz, cdp.Nombres)" target="_blank" ><div class="col-sm-6 col-md-4 col-lg-3"><i class="fa fa-file-pdf-o"></i></div></a>
-                                        </td>
+                                        <td v-text="cdp.TotMimCasPaz"></td>                                        
                                     </tr>
                                 </tbody>
                             </table>
@@ -362,8 +365,8 @@
             vista1() {
                 this.lista = 1;
             },
-            reportePdf($codcdp, $nombres){
-                window.open('/informe/ReportesOracion?codcdp='+$codcdp+'&nomlid='+$nombres, '_blank');
+            reportePdf(){
+                window.open('/informe/ReportesOracion', '_blank');
             }
         }, 
         mounted() {

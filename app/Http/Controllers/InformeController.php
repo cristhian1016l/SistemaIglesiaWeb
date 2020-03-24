@@ -240,29 +240,167 @@ class InformeController extends Controller
     public function informe_oracion(Request $request)
     {        
         date_default_timezone_set("America/Lima");        
-        setlocale(LC_TIME, 'es_ES.UTF-8');
-
+        setlocale(LC_TIME, 'es_ES.UTF-8');        
         $diaInicio="Monday";
-        $fecha = date('Y-m-d');
+        $fecha = '2020-03-19';
         $strFecha = strtotime($fecha);
         $fechaInicio = date('Y-m-d',strtotime('last '.$diaInicio,$strFecha));
-        
         date($fechaInicio);
+        
+        $martes = date("Y-m-d",strtotime($fechaInicio."+ 1 days"));
+        $miercoles = date("Y-m-d",strtotime($martes."+ 1 days"));
+        $jueves = date("Y-m-d",strtotime($miercoles."+ 1 days"));
+        $viernes = date("Y-m-d",strtotime($jueves."+ 1 days"));
+        $sabado = date("Y-m-d",strtotime($viernes."+ 1 days"));
+        $domingo = date("Y-m-d",strtotime($sabado."+ 1 days"));
 
-        $cdp = DB::table('TabDetAsi as da')
-               ->join('TabAsi as a', 'da.CodAsi', '=', 'a.CodAsi')
-               ->join('TabMimCasPaz as mim', 'da.CodCon', '=', 'mim.CodCon')
-               ->select(DB::raw('da.NomApeCon, da.Asistio, a.FecAsi, mim.CodCasPaz'))
-               ->where('mim.CodCasPaz', '=', $request->codcdp)
-               ->where('a.CodAct', '=', '002')
-               ->whereBetween('a.FecAsi', [$fechaInicio, date('Y-m-d')])
-               ->orderBy('da.NomApeCon')
-               ->orderBy('a.FecAsi')
+        $cdp = DB::table('TabMimCasPaz as m')
+               ->join('TabCasasDePaz as cdp', 'm.CodCasPaz', '=', 'cdp.CodCasPaz')
+               ->select(DB::raw('cdp.CodCasPaz, m.CodCon'))
+               ->where('cdp.ID_Red', '=', '4')
+               ->orderBy('cdp.CodCasPaz', 'asc')
                ->get();       
-        $codcdp = $request->codcdp; 
-        $nombres = $request->nomlid;
+
+        $array = Collect();
+        $add = Collect();
+        foreach($cdp as $c)
+        {                        
+            $cdp = $c->CodCasPaz;
+            $lunes = DB::table('TabAsi as a')
+                 ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                 ->select(DB::raw('da.NomApeCon, da.Asistio as a'))
+                 ->where('da.CodCon', '=', $c->CodCon)
+                 ->where("a.CodAct", '=', '002')
+                 ->where('a.FecAsi', "=", $fechaInicio)
+                 ->orderBy('a.FecAsi', 'ASC')
+                 ->get();                
+            
+                if (isset($lunes->last()->NomApeCon) &&
+                    isset($lunes->last()->a)) {
+                        
+                    $array[] = array("CDP" => $cdp, "Nombre" => $lunes->last()->NomApeCon, 
+                                     "LU" => $lunes->last()->a,
+                                     "MA" => "N",
+                                     "MI" => "N",
+                                     "JU" => "N",
+                                     "VI" => "N",
+                                     "SA" => "N",
+                                     "DO" => "N");
+
+                }                             
+
+                $prayerMa = DB::table('TabAsi as a')
+                    ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                    ->select('da.NomApeCon', 'a.FecAsi', 'da.Asistio')
+                    ->where('da.CodCon', '=', $c->CodCon)
+                    ->where("a.CodAct", '=', '002')
+                    ->where('a.FecAsi', $martes)
+                    ->orderBy('a.FecAsi', 'ASC')
+                    ->get();  
+
+                $prayerMi = DB::table('TabAsi as a')
+                    ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                    ->select('da.NomApeCon', 'a.FecAsi', 'da.Asistio')
+                    ->where('da.CodCon', '=', $c->CodCon)
+                    ->where("a.CodAct", '=', '002')
+                    ->where('a.FecAsi', $miercoles)
+                    ->orderBy('a.FecAsi', 'ASC')
+                    ->get();  
+
+                $prayerJu = DB::table('TabAsi as a')
+                    ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                    ->select('da.NomApeCon', 'a.FecAsi', 'da.Asistio')
+                    ->where('da.CodCon', '=', $c->CodCon)
+                    ->where("a.CodAct", '=', '002')
+                    ->where('a.FecAsi', $jueves)
+                    ->orderBy('a.FecAsi', 'ASC')
+                    ->get();  
+
+                $prayerVi = DB::table('TabAsi as a')
+                    ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                    ->select('da.NomApeCon', 'a.FecAsi', 'da.Asistio')
+                    ->where('da.CodCon', '=', $c->CodCon)
+                    ->where("a.CodAct", '=', '002')
+                    ->where('a.FecAsi', $viernes)
+                    ->orderBy('a.FecAsi', 'ASC')
+                    ->get();  
+                
+                $prayerSa = DB::table('TabAsi as a')
+                    ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                    ->select('da.NomApeCon', 'a.FecAsi', 'da.Asistio')
+                    ->where('da.CodCon', '=', $c->CodCon)
+                    ->where("a.CodAct", '=', '002')
+                    ->where('a.FecAsi', $sabado)
+                    ->orderBy('a.FecAsi', 'ASC')
+                    ->get();  
+                    
+                $prayerDo = DB::table('TabAsi as a')
+                    ->join('TabDetAsi as da', 'a.CodAsi', '=', 'da.CodAsi')
+                    ->select('da.NomApeCon', 'a.FecAsi', 'da.Asistio')
+                    ->where('da.CodCon', '=', $c->CodCon)
+                    ->where("a.CodAct", '=', '002')
+                    ->where('a.FecAsi', $domingo)
+                    ->orderBy('a.FecAsi', 'ASC')
+                    ->get();  
+
+                for ($i=0; $i < sizeof($array) ; $i++) { 
+                    if ($prayerMa->isNotEmpty()) {
+                        $prayerMar = $prayerMa->last()->Asistio;
+                    }else{
+                        $prayerMar = "N";
+                    }
+                    if ($prayerMi->isNotEmpty()) {
+                        $prayerMie = $prayerMi->last()->Asistio;
+                    }else{
+                        $prayerMie = "N";
+                    }
+                    if ($prayerJu->isNotEmpty()) {
+                        $prayerJue = $prayerJu->last()->Asistio;
+                    }else{
+                        $prayerJue = "N";
+                    }
+                    if ($prayerVi->isNotEmpty()) {
+                        $prayerVie = $prayerVi->last()->Asistio;
+                    }else{
+                        $prayerVie = "N";
+                    }
+                    if ($prayerSa->isNotEmpty()) {
+                        $prayerSab = $prayerSa->last()->Asistio;
+                    }else{
+                        $prayerSab = "N";
+                    }
+                    if ($prayerDo->isNotEmpty()) {
+                        $prayerDom = $prayerDo->last()->Asistio;
+                    }else{
+                        $prayerDom = "N";
+                    }
+                    
+                    for ($i=0; $i < sizeof($array); $i++) { 
+                        $reem = array_replace($array[$i], 
+                                         ["MA" => $prayerMar],
+                                         ["MI" => $prayerMie],
+                                         ["JU" => $prayerJue],
+                                         ["VI" => $prayerVie],
+                                         ["SA" => $prayerSab],
+                                         ["DO" => $prayerDom]);
+                    }
+
+                    $add->push($reem);
+                }                
+                
+        }         
+        //dd($cdp);
+        $lista = Collect($add);     
+        //dd($lista->groupBy('CDP'));           
+        $lista = $lista->groupBy('CDP');
+        dd($lista);
+        //dd($lista[0]['LU']);
+        //["MA"]
+
+        //$reem = array_replace($array[0], ["MA" => 0]);
+        //dd($reem);
         $fecha = strftime("%A, %d de %B de %Y %H:%M");
-        $pdf = PDF::loadView('reportes.informe_oracionCDP', compact('cdp', 'codcdp', 'nombres'));
+        $pdf = PDF::loadView('reportes.informe_oracionCDP', compact('lista'));
         return $pdf->stream();
     }
 }
